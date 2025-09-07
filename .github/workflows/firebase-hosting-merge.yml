@@ -17,8 +17,12 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools@latest
+      - name: Clean cache
+        run: |
+          npm cache clean --force
+          rm -rf node_modules
+          rm -rf .firebase
+          rm -rf dist
 
       - name: Build
         env:
@@ -30,7 +34,6 @@ jobs:
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
           VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
         run: |
-          rm -rf dist
           npm ci 
           npm run build
 
